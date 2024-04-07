@@ -3,7 +3,7 @@ import { JourneyPicker } from '../../components/JourneyPicker';
 export const HomePage = () => {
   return (
     <main>
-      <JourneyPicker />
+      <JourneyPicker onJourneyChange={'test'}/>
     </main>
   );
 };
