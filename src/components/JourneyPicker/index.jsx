@@ -1,39 +1,57 @@
 import React, { useEffect, useState } from 'react';
 import { CityOptions } from '../CityOptions';
 import './style.css';
+import { DatesOptions } from '../DatesOptions';
 
 export const JourneyPicker = ({ onJourneyChange }) => {
   const cities1 = [
     { name: 'Praha', code: 'CZ-PRG' },
     { name: 'Brno', code: 'CZ-BRQ' },
   ];
+
+  const dates1 =  [
+    {
+      "dateBasic": "28.05.2021",
+      "dateCs": "pá 28. květen 2021"
+    },
+    {
+      "dateBasic": "29.05.2021",
+      "dateCs": "so 29. květen 2021"
+    }
+  ];
+  
   const [fromCity, setFromCity] = useState('');
   const [toCity, setToCity] = useState('');
   const [date, setDate] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [cities, setCities] = useState(cities1);
+  const [dates, setDates] = useState(dates1);
   
   useEffect (() => {
     
-    const loadCities = async() => {
+    const loadData= async() => {
       try {
-        const response = await fetch('https://apps.kodim.cz/daweb/leviexpress/api/cities');
-        const data = await response.json();
+        const responseC = await fetch('https://apps.kodim.cz/daweb/leviexpress/api/cities');
+        const dataC = await responseC.json();
+        const responseD = await fetch('https://apps.kodim.cz/daweb/leviexpress/api/dates');
+        const dataD = await responseD.json();
+
         //console.log("Nahravam data ...");
         setLoading(false);
-        setCities(data.results);
+        setCities(dataC.results);
+        setDates(dataD.results);
       } catch (ex) {
         setError('Load data error: ' + ex);
         setLoading(false);
       }
     };
 
-    loadCities();
+    loadData();
 
   }, []);
 
-  if (loading) return (<div>Loading ...</div>);
+  if (loading) return (<div>Loading cities and dates ...</div>);
   if (!!error) return (<div className='error'>{error}</div>);
 
   const handleSubmit = (event) => {
@@ -63,12 +81,7 @@ export const JourneyPicker = ({ onJourneyChange }) => {
           <label>
             <div className="journey-picker__label">Datum:</div>
             <select value={date} onChange={(e) => setDate(e.target.value)}>
-              <option value="">Vyberte</option>
-              <option value="datum01">Datum 01</option>
-              <option value="datum02">Datum 02</option>
-              <option value="datum03">Datum 03</option>
-              <option value="datum04">Datum 04</option>
-              <option value="datum05">Datum 05</option>
+              <DatesOptions dates={dates} />
             </select>
           </label>
           <div className="journey-picker__controls">
