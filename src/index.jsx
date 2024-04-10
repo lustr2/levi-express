@@ -14,12 +14,12 @@ const router = createBrowserRouter([
     errorElement : <ErrorPage />,
     children: [
       {
-        path: '/',
+        path: '',
         element: <HomePage />,
       },
       {
-            path: '/reservation',
-            element: <ReservationPage />,
+        path: 'reservation',
+        element: <ReservationPage />,
       },
     ],
   },

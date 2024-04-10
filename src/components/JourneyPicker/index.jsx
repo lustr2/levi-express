@@ -27,6 +27,8 @@ export const JourneyPicker = ({ onJourneyChange }) => {
   const [error, setError] = useState('');
   const [cities, setCities] = useState(cities1);
   const [dates, setDates] = useState(dates1);
+  const [journey, setJourney] = useState(null);
+  const [sendForm, setSendForm] = useState(false);
   
   useEffect (() => {
     
@@ -51,21 +53,56 @@ export const JourneyPicker = ({ onJourneyChange }) => {
 
   }, []);
 
+  // useEffect (() => {
+  //   const loadJourney = async() => {
+  //     try {
+  //       const responseJ = await fetch (`https://apps.kodim.cz/daweb/leviexpress/api/journey?fromCity=${fromCity}&toCity=${toCity}&date=${date}`);
+  //       const  dataJ = await responseJ.json();
+  //       setJourney(dataJ);
+  //     } catch (ex) {
+  //       setError('Load journey error: ' + ex);
+  //     };
+  //   };
+  //   loadJourney();
+
+  // }, [sendForm]);
+
   if (loading) return (<div>Loading cities and dates ...</div>);
   if (!!error) return (<div className='error'>{error}</div>);
 
-  const handleSubmit = (event) => {
-    console.log('Odesílám formulář s cestou ...' + event);
+  
+  const handleSubmit = async(event) => {
+    event.preventDefault();
+    console.log('Cesta: ' + event);
+    console.log('Odesílám formulář s cestou ...');
     console.log('Odkud:' + fromCity);
     console.log('Kam: ' + toCity);
     console.log('Kdy: ' + date);
-  };
+    console.log(`https://apps.kodim.cz/daweb/leviexpress/api/journey?fromCity=${fromCity}&toCity=${toCity}&date=${date}`);
+
+    try {
+      const responseJ = await fetch (`https://apps.kodim.cz/daweb/leviexpress/api/journey?fromCity=${fromCity}&toCity=${toCity}&date=${date}`);
+      const  dataJ = await responseJ.json();
+      setJourney(dataJ.results);
+      onJourneyChange(dataJ.results);
+    } catch (ex) {
+      setError('Load journey error: ' + ex);
+    };
+  
+    
+ //   setSendForm(false);
+
+};
 
   return ( 
     <div className="journey-picker container">
       <h2 className="journey-picker__head">Kam chcete jet?</h2>
       <div className="journey-picker__body">
-        <form className="journey-picker__form" onSubmit={(e) => handleSubmit(e)}>
+        <form className="journey-picker__form" 
+              onSubmit={(e) => { setSendForm(true);
+                                 handleSubmit(e);
+                                
+        } }>
           <label>
             <div className="journey-picker__label">Odkud:</div>
             <select value={fromCity} onChange={(e) => setFromCity(e.target.value)}>
@@ -87,7 +124,9 @@ export const JourneyPicker = ({ onJourneyChange }) => {
           <div className="journey-picker__controls">
             <button 
               className="btn" 
-              type="submit"> 
+              type="submit"
+              disabled={((fromCity==='') || (toCity==='') || (date==='')) ? true : false}
+            > 
               Vyhledat spoj
             </button>
           </div>
