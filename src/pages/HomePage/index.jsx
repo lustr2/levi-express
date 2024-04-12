@@ -7,15 +7,14 @@ export const HomePage = () => {
   const handleJourneyChange = (cesta) => {
     console.log("Poslano do rodice: " + cesta.journeyId);
 //    alert(cesta.code);
-    setJourney(cesta.journeyId);
+    setJourney(cesta);
   };
 
   return (
     <main>
-      {journey === null 
-          ? <JourneyPicker onJourneyChange={handleJourneyChange}/>
-          : "Nalezeno spojení s id " + {journey}
-      }
+      <JourneyPicker onJourneyChange={handleJourneyChange}/>
+      {journey?.journeyId && <div>Nalezeno spojení s id: {journey?.journeyId}</div>}
+      
     </main>
   );
 };
