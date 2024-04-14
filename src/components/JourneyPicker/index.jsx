@@ -32,7 +32,7 @@ export const JourneyPicker = ({ onJourneyChange }) => {
   
   useEffect (() => {
     
-    const loadData= async() => {
+    const loadData = async() => {
       try {
         const responseC = await fetch('https://apps.kodim.cz/daweb/leviexpress/api/cities');
         const dataC = await responseC.json();

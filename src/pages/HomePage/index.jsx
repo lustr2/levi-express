@@ -15,8 +15,31 @@ export const HomePage = () => {
     setJourney(cesta);
   };
 
-  const handleBuy = () => {
+
+  const handleBuy = async() => {
     console.log('Funguju!!');
+
+    try {
+      const response = await fetch('https://apps.kodim.cz/daweb/leviexpress/api/reservation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          action: 'create',
+          seat: journey.autoSeat,
+          journeyId: journey.journeyId,
+        }),
+      });
+      const numberRes = await response.json();
+
+      navigate(`/reservation/${numberRes.results.reservationId}`);
+      console.log("Cislo rezervace: " + numberRes.results.reservationId);
+
+    } catch (ex) {
+      console.log("Chyba pri odesilani rezervace");
+    }    
+
   }
 
   return (
