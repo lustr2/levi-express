@@ -7,13 +7,13 @@ import { useNavigate } from "react-router-dom";
 
 export const HomePage = () => {
   const [journey, setJourney] = useState(null);
+  const [userSeat, setUserSeat] = useState(null);
   const navigate = useNavigate();
 
   const handleJourneyChange = (cesta) => {
-//    console.log("Poslano do rodice: " + cesta.journeyId);
     setJourney(cesta);
+    setUserSeat(cesta.autoSeat);
   };
-
 
   const handleBuy = async() => {
 
@@ -25,15 +25,13 @@ export const HomePage = () => {
         },
         body: JSON.stringify({
           action: 'create',
-          seat: journey.autoSeat,
+          seat: userSeat,
           journeyId: journey.journeyId,
         }),
       });
       const numberRes = await response.json();
 
       navigate(`/reservation/${numberRes.results.reservationId}`);
-      console.log("Cislo rezervace: " + numberRes.results.reservationId);
-
     } catch (ex) {
       console.log("Chyba pri odesilani rezervace");
     }    
@@ -48,15 +46,13 @@ export const HomePage = () => {
           <JourneyDetail journey={journey?.stops} />
           <SeatPicker 
               seats={journey?.seats} 
-              selectedSeat={journey?.autoSeat}
+              selectedSeat={userSeat}
+              onSeatSelected={setUserSeat}
           />
           <div className="controls container">
             <button className="btn btn--big" type="button" onClick={handleBuy}>Rezervovat</button>
           </div>
-
-
         </>}
-      
     </main>
   );
 };

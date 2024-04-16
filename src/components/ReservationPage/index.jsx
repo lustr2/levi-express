@@ -9,11 +9,10 @@ export const ReservationPage = () => {
     useEffect (() => {
         const detailRes = async() => {
             try {
-//              console.log("Co volam v detailRes: " + 'https://apps.kodim.cz/daweb/leviexpress/api/reservation?id=' + id);
+//            console.log("Co volam v detailRes: " + 'https://apps.kodim.cz/daweb/leviexpress/api/reservation?id=' + id);
               const response = await fetch(`https://apps.kodim.cz/daweb/leviexpress/api/reservation?id=${id}`);
               const data = await response.json();
               setReservation(data.results);
-//              console.log(data.results);
             } catch (ex) {
                 console.log("Chyba pri ziskavani informaci o rezervaci ...");
             }
@@ -46,6 +45,5 @@ export const ReservationPage = () => {
             : ''
          }     
       </div>
-      
     );
 }
