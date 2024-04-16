@@ -18,7 +18,7 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: 'reservation/:numberReservation',
+        path: 'reservation/:id',
         element: <ReservationPage />,
       },
     ],

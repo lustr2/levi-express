@@ -10,14 +10,12 @@ export const HomePage = () => {
   const navigate = useNavigate();
 
   const handleJourneyChange = (cesta) => {
-    console.log("Poslano do rodice: " + cesta.journeyId);
-//    alert(cesta.code);
+//    console.log("Poslano do rodice: " + cesta.journeyId);
     setJourney(cesta);
   };
 
 
   const handleBuy = async() => {
-    console.log('Funguju!!');
 
     try {
       const response = await fetch('https://apps.kodim.cz/daweb/leviexpress/api/reservation', {

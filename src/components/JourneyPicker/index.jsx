@@ -39,7 +39,6 @@ export const JourneyPicker = ({ onJourneyChange }) => {
         const responseD = await fetch('https://apps.kodim.cz/daweb/leviexpress/api/dates');
         const dataD = await responseD.json();
 
-        //console.log("Nahravam data ...");
         setLoading(false);
         setCities(dataC.results);
         setDates(dataD.results);
@@ -52,20 +51,6 @@ export const JourneyPicker = ({ onJourneyChange }) => {
     loadData();
 
   }, []);
-
-  // useEffect (() => {
-  //   const loadJourney = async() => {
-  //     try {
-  //       const responseJ = await fetch (`https://apps.kodim.cz/daweb/leviexpress/api/journey?fromCity=${fromCity}&toCity=${toCity}&date=${date}`);
-  //       const  dataJ = await responseJ.json();
-  //       setJourney(dataJ);
-  //     } catch (ex) {
-  //       setError('Load journey error: ' + ex);
-  //     };
-  //   };
-  //   loadJourney();
-
-  // }, [sendForm]);
 
   if (loading) return (<div>Loading cities and dates ...</div>);
   if (!!error) return (<div className='error'>{error}</div>);
@@ -89,10 +74,7 @@ export const JourneyPicker = ({ onJourneyChange }) => {
       setError('Load journey error: ' + ex);
     };
   
-    
- //   setSendForm(false);
-
-};
+ };
 
   return ( 
     <div className="journey-picker container">
