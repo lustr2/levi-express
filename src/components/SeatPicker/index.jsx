@@ -1,14 +1,40 @@
-import { Seat } from "../Seat";
+import { SeatRow } from "../SeatRow";
 
-export const SeatPicker = () => {
+export const SeatPicker = ({ seats }) => {
+    const testRow = [
+        [{
+          number: 33,
+          isOccupied: false,
+        },
+        {
+          number: 29,
+          isOccupied: true,
+        },
+        {
+          number: 25,
+          isOccupied: false,
+        }],
+        [{
+            number: 3,
+            isOccupied: false,
+          },
+          {
+            number: 9,
+            isOccupied: true,
+          },
+          {
+            number: 5,
+            isOccupied: false,
+          }],
+        ];
+
+        console.log(seats);        
     return (
         <>
           <div className="seat-picker container">
             <h2>Vyberte sedadlo</h2>
             <div className="seats"> 
-                <div><Seat number={1} /></div>
-                <div><Seat number={17} /></div>
-                <div><Seat number={33} /></div>
+               { seats.map((s, index) => <SeatRow key={index} row={s} />)}
             </div>
           </div>
         </>
