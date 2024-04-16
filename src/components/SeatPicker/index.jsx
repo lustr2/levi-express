@@ -1,6 +1,6 @@
 import { SeatRow } from "../SeatRow";
 
-export const SeatPicker = ({ seats }) => {
+export const SeatPicker = ({ seats, selectedSeat }) => {
     const testRow = [
         [{
           number: 33,
@@ -34,7 +34,12 @@ export const SeatPicker = ({ seats }) => {
           <div className="seat-picker container">
             <h2>Vyberte sedadlo</h2>
             <div className="seats"> 
-               { seats.map((s, index) => <SeatRow key={index} row={s} />)}
+               { seats.map((s, index) => 
+                    <SeatRow
+                        key={index} 
+                        row={s} 
+                        rowSelectedSeat={selectedSeat}
+                    />)}
             </div>
           </div>
         </>
